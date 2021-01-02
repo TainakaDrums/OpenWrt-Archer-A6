@@ -1,13 +1,11 @@
 #
-# Copyright (C) 2017-2019 Tomasz Maciej Nowak <tomek_n@o2.pl>
+# Copyright (C) 2017-2019 Tomasz Maciej Nowak <tmn505@gmail.com>
 #
 # This is free software, licensed under the GNU General Public License v2.
 # See /LICENSE for more information.
 #
 include $(TOPDIR)/rules.mk
 include $(INCLUDE_DIR)/image.mk
-
-SIGNATURE:=$(shell printf "%.8s" $(SOURCE_DATE_EPOCH))
 
 define Build/tegra-sdcard
 	rm -fR $@.boot
@@ -16,17 +14,12 @@ define Build/tegra-sdcard
 	$(if $(DEVICE_DTS),\
 		$(foreach dtb,$(DEVICE_DTS),$(CP) $(DTS_DIR)/$(dtb).dtb $@.boot), \
 		$(CP) $(DTS_DIR)/*.dtb $@.boot)
-	sed \
-		-e 's#@ROOT@#$(SIGNATURE)#g' \
-		-e 's#@KERNEL@#$(KERNEL_NAME)#g' \
-		$(BOOT_SCRIPT) > $@-boot.scr
 	mkimage -A arm -O linux -T script -C none -a 0 -e 0 \
 		-n '$(DEVICE_TITLE) OpenWrt bootscript' \
-		-d $@-boot.scr \
+		-d $(BOOT_SCRIPT) \
 		$@.boot/boot.scr
 
-	PADDING="$(CONFIG_TARGET_IMAGES_PAD)" \
-	SIGNATURE="$(SIGNATURE)" \
+	SIGNATURE="$(IMG_PART_SIGNATURE)" \
 	$(SCRIPT_DIR)/gen_image_generic.sh \
 		$@ \
 		$(CONFIG_TARGET_KERNEL_PARTSIZE) $@.boot \
@@ -37,6 +30,7 @@ define Build/tegra-sdcard
 endef
 
 DEVICE_VARS += BOOT_SCRIPT UBOOT
+
 define Device/Default
   BOOT_SCRIPT := generic-bootscript
   IMAGES := sdcard.img.gz
@@ -48,10 +42,11 @@ define Device/Default
 endef
 
 define Device/compulab_trimslice
-  DEVICE_TITLE := CompuLab TrimSlice
+  DEVICE_VENDOR := CompuLab
+  DEVICE_MODEL := TrimSlice
   DEVICE_DTS := tegra20-trimslice
   DEVICE_PACKAGES := kmod-r8169 kmod-rt2800-usb kmod-rtc-em3027 \
-	kmod-usb-storage wpad-mini
+	kmod-usb-storage wpad-basic-wolfssl
   UBOOT := trimslice-mmc
 endef
 TARGET_DEVICES += compulab_trimslice

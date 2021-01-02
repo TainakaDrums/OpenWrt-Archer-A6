@@ -5,15 +5,16 @@ PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL=$(PROJECT_GIT)/project/ubus.git
-PKG_SOURCE_DATE:=2019-12-27
-PKG_SOURCE_VERSION:=041c9d1c052bb4936fd03240f7d0dd64aedda972
-PKG_MIRROR_HASH:=7febbe78dd178d8d7ccacff54c00fb2d19a53624005920db8cd85236f54f8324
+PKG_SOURCE_DATE:=2020-12-04
+PKG_SOURCE_VERSION:=d1d9ddf98d39b0bdc055060fb962335439445690
+PKG_MIRROR_HASH:=6fbdda5144cfef14d314d421ce801e9c89a2266428346f531a57c28e731a059c
 CMAKE_INSTALL:=1
 
 PKG_LICENSE:=LGPL-2.1
 PKG_LICENSE_FILES:=
-
 PKG_MAINTAINER:=Felix Fietkau <nbd@nbd.name>
+
+PKG_ASLR_PIE_REGULAR:=1
 
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/cmake.mk
@@ -30,6 +31,7 @@ define Package/ubusd
   CATEGORY:=Base system
   TITLE:=OpenWrt RPC daemon
   DEPENDS:=+libubox +libblobmsg-json
+  USERID:=ubus=81:ubus=81
 endef
 
 define Package/libubus
