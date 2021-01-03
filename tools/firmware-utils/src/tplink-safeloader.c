@@ -951,9 +951,12 @@ static struct device_info boards[] = {
 		.vendor = "",
 		.support_list =
 			"SupportList:\r\n"
-			"{product_name:Archer C6,product_ver:2.0.0,special_id:45550000}\r\n"
+            "{product_name:Archer C6,product_ver:2.0.0,special_id:45550000}\r\n"
+			"{product_name:Archer A6,product_ver:2.0.0,special_id:45550000}\r\n"
 			"{product_name:Archer C6,product_ver:2.0.0,special_id:52550000}\r\n"
-			"{product_name:Archer C6,product_ver:2.0.0,special_id:4A500000}\r\n",
+			"{product_name:Archer A6,product_ver:2.0.0,special_id:52550000}\r\n"
+			"{product_name:Archer C6,product_ver:2.0.0,special_id:4A500000}\r\n"
+			"{product_name:Archer A6,product_ver:2.0.0,special_id:4A500000}\r\n",
 		.part_trail = 0x00,
 		.soft_ver = "soft_ver:1.9.1\n",
 
